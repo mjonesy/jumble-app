@@ -1,0 +1,18 @@
+.centered {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.example-form-field {
+  width: 200px;
+  background-color: #c2c3c4;
+}
+
+.you-got-it {
+  background-color: lightgreen;
+}
+
+.guess-again {
+  background-color: red;
+}

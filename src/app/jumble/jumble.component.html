@@ -1,0 +1,30 @@
+<!--<div class="difficulty">-->
+<!--  <button (click)="this.setDifficulty(3)">easy</button>-->
+<!--  <button (click)="this.setDifficulty(5)">medium</button>-->
+<!--  <button (click)="this.setDifficulty(8)">hard</button>-->
+<!--  <button (click)="this.setDifficulty(10)">extreme</button>-->
+<!--</div>-->
+
+<p>Unscramble the word below:</p>
+
+<h2 class="centered">
+  {{scrambledWord}}
+</h2>
+<br>
+<mat-form-field class="example-form-field" appearance="fill">
+  <input matInput type="text" (input)="checkInputWord($event)">
+</mat-form-field>
+<br>
+<br>
+<div *ngIf="isWordCorrect" class="centered">
+  <div class="you-got-it">You got it!</div>
+  <br>
+  <button (click)="this.resetGame()" >Play again?</button>
+</div>
+<div *ngIf="showGuessAgain" class="centered guess-again">
+  Guess again
+</div>
+
+<ul>
+  <li *ngFor="let guessedWord of guessedWords">{{guessedWord}}</li>
+</ul>
