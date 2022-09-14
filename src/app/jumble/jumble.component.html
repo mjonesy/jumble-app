@@ -2,8 +2,11 @@
 <p>Unscramble the word below:</p>
 
 <h2 class="centered">
-  {{scrambledWord}}
+  fill in here:
 </h2>
+<h3 class="centered">
+  <div *ngFor="let subWord of subWords">{{subWord}}</div>
+</h3>
 <br>
 <mat-form-field class="example-form-field" appearance="fill">
   <input matInput type="text" (input)="checkInputWord($event)">

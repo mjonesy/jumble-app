@@ -13,6 +13,7 @@ export class JumbleComponent implements OnInit {
   isWordCorrect = false;
   showGuessAgain = false;
   guessedWords: string[] = [];
+  subWords: string[] = [];
 
   constructor() {
   }
@@ -23,9 +24,10 @@ export class JumbleComponent implements OnInit {
 
   setScrambledWord() {
     this.unscrambledWord = this.generateWord();
-
     this.scrambledWord = this.scrambleCheckForDupes(this.unscrambledWord);
 
+    this.setSubWords(this.unscrambledWord);
+    console.log(this.unscrambledWord);
     return this.scrambledWord;
   }
 
@@ -76,6 +78,26 @@ export class JumbleComponent implements OnInit {
     }
   }
 
+  setSubWords(unscrambledMainWord: string) {
+    // let unscrambledMainWord = 'dog';
+
+    let mainLetters = unscrambledMainWord.split('');
+
+    for (let i = 0; i < mainLetters.length; i++) {
+      this.populateSubWords(mainLetters[i]);
+    }
+
+    console.log('subWords: ', this.subWords)
+  }
+
+  private populateSubWords(letter: string) {
+    let newWord = '';
+    do {
+      newWord = this.generateWord();
+    } while (!newWord.includes(letter))
+    this.subWords.push(newWord);
+  }
+
   resetGame() {
     this.unscrambledWord = "";
     this.scrambledWord = "";
@@ -85,5 +107,4 @@ export class JumbleComponent implements OnInit {
     this.guessedWords = [];
     this.setScrambledWord();
   }
-
 }
