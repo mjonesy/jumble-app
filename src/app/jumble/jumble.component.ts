@@ -13,7 +13,8 @@ export class JumbleComponent implements OnInit {
   isWordCorrect = false;
   showGuessAgain = false;
   guessedWords: string[] = [];
-  subWords: string[] = [];
+  subWord = new Map<string, any>();
+  subWords = Array.from(this.subWord);
 
   constructor() {
   }
@@ -82,6 +83,7 @@ export class JumbleComponent implements OnInit {
     // let unscrambledMainWord = 'dog';
 
     let mainLetters = unscrambledMainWord.split('');
+    // let mainLetters = 'dog';
 
     for (let i = 0; i < mainLetters.length; i++) {
       this.populateSubWords(mainLetters[i]);
@@ -95,7 +97,24 @@ export class JumbleComponent implements OnInit {
     do {
       newWord = this.generateWord();
     } while (!newWord.includes(letter))
-    this.subWords.push(newWord);
+    console.log('newWord: ', newWord, ' letter = ', letter);
+
+    const wordMap = new Map();
+    let newWordLetters = newWord.split('');
+
+    for (let i = 0; newWordLetters.length > i; i++) {
+      console.log('LETTER: ', newWordLetters[i])
+      if (newWordLetters[i] === letter) {
+        console.log('letter matches: ', letter)
+        wordMap.set(newWordLetters[i], letter);
+      } else {
+        console.log('letter doesnt match: ', letter)
+        wordMap.set(newWordLetters[i], null)
+      }
+    }
+
+    // wordMap.set(newWord, letter);
+    console.log('map: ', wordMap);
   }
 
   resetGame() {
