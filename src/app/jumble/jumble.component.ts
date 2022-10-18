@@ -16,6 +16,7 @@ export class JumbleComponent implements OnInit {
   subWords: string[] = [];
   scrambledSubWords: string[] = [];
   subWordsMapArray: any = [];
+  guessState = 'default';
 
   constructor() {
   }
@@ -74,16 +75,19 @@ export class JumbleComponent implements OnInit {
 
     if (!lengthMatches) {
       this.showGuessAgain = false;
+      this.guessState = 'default';
     }
 
     if (!correctGuess && lengthMatches) {
       this.guessedWords.push(this.guessedWord);
       this.showGuessAgain = true;
+      this.guessState = 'incorrect';
     }
 
     if (correctGuess) {
       console.log('correct');
       this.isWordCorrect = true;
+      this.guessState = 'correct';
     } else {
       this.isWordCorrect = false;
     }
@@ -107,6 +111,7 @@ export class JumbleComponent implements OnInit {
     do {
       newWord = this.generateWord();
     } while (!newWord.includes(letter))
+    // console.log('newWord: ', newWord)
 
     this.subWords.push(newWord);
     this.scrambledSubWords.push(this.scrambleWord(newWord));

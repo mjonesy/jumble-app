@@ -1,8 +1,8 @@
 <div class="centered">
   <div class="difficulty-buttons">
-    <button class="difficulty-btn-easy" (click)="setDifficulty(4)">easy</button>
-    <button class="difficulty-btn-med" (click)="setDifficulty(6)">medium</button>
-    <button class="difficulty-btn-hard" (click)="setDifficulty(8)">hard</button>
+    <button mat-button class="difficulty-btn-easy" (click)="setDifficulty(4)">easy</button>
+    <button mat-button class="difficulty-btn-med" (click)="setDifficulty(6)">medium</button>
+    <button mat-button class="difficulty-btn-hard" (click)="setDifficulty(8)">hard</button>
   </div>
   <br>
   <div>Unscramble the word below:</div>
@@ -11,28 +11,28 @@
   </h2>
 
   <!--  <h3>-->
-  <!--  <div class="blue" *ngFor="let scrambledSubWord of scrambledSubWords">{{scrambledSubWord}}</div>-->
+<!--    <div class="blue" *ngFor="let scrambledSubWord of scrambledSubWords">{{scrambledSubWord}}</div>-->
   <!--  - -->
-  <!--  <div class="purple" *ngFor="let scrambledSubWord of subWordsMapArray">{{scrambledSubWord}}</div>-->
+<!--    <div class="purple" *ngFor="let scrambledSubWord of subWordsMapArray">{{scrambledSubWord}}</div>-->
   <!--  - -->
   <!--  <div *ngFor="let subWord of subWords">{{subWord}}</div>-->
   <!--  </h3>-->
   <br>
-  <mat-form-field class="example-form-field" appearance="fill">
-    <input matInput type="text" (input)="checkInputWord($event)">
+  <mat-form-field class="guess-input-form-{{guessState}}">
+    <input matInput type="text" class="guess-input" (input)="checkInputWord($event)">
   </mat-form-field>
   <br>
   <br>
   <div *ngIf="isWordCorrect" class="centered">
     <div class="you-got-it">You got it!</div>
     <br>
-    <button (click)="this.resetGame()">Play again?</button>
+    <button mat-button class="blue" (click)="this.resetGame()">Play again?</button>
   </div>
   <div *ngIf="showGuessAgain" class="centered guess-again">
     Guess again
   </div>
 
-  <ul>
-    <li *ngFor="let guessedWord of guessedWords">{{guessedWord}}</li>
-  </ul>
+  <mat-list>
+    <mat-list-item *ngFor="let guessedWord of guessedWords">{{guessedWord}}</mat-list-item>
+  </mat-list>
 </div>

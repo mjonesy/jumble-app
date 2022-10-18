@@ -25,16 +25,43 @@
 }
 
 .blue {
-  color: #1976d2;
+  background-color: #1976d2;
 }
 
 .purple {
   color: purple;
 }
 
-.example-form-field {
+.guess-input-form {
   width: 200px;
   background-color: #c2c3c4;
+  border-radius: 25px;
+
+  &-default {
+    @extend .guess-input-form;
+    border: 5px solid black;
+  }
+
+  &-incorrect {
+    @extend .guess-input-form;
+    border: 5px solid indianred;
+  }
+
+  &-correct {
+    @extend .guess-input-form;
+    border: 5px solid lightgreen;
+  }
+}
+
+::ng-deep .guess-input-form .mat-form-field-underline {
+  display: none;
+}
+
+.guess-input {
+  height: 35px;
+  margin: 0 30px;
+  width: 135px;
+  font-size: xx-large;
 }
 
 .you-got-it {
@@ -42,5 +69,5 @@
 }
 
 .guess-again {
-  background-color: red;
+  background-color: indianred;
 }
