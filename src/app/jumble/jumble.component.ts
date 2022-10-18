@@ -13,14 +13,18 @@ export class JumbleComponent implements OnInit {
   isWordCorrect = false;
   showGuessAgain = false;
   guessedWords: string[] = [];
-  subWord = new Map<string, any>();
-  subWords = Array.from(this.subWord);
+  subWords: string[] = [];
+  scrambledSubWords: string[] = [];
+  subWordsMapArray: any = [];
 
   constructor() {
   }
 
   ngOnInit(): void {
     this.setScrambledWord();
+    console.log('subWords: ', this.subWords);
+    console.log('scrambledSubWords: ', this.scrambledSubWords);
+    console.log('subWordsArrayMap: ', this.subWordsMapArray);
   }
 
   setScrambledWord() {
@@ -28,12 +32,18 @@ export class JumbleComponent implements OnInit {
     this.scrambledWord = this.scrambleCheckForDupes(this.unscrambledWord);
 
     this.setSubWords(this.unscrambledWord);
-    console.log(this.unscrambledWord);
     return this.scrambledWord;
   }
 
   generateWord() {
     return randomWords.default(1)[0];
+  }
+
+  setDifficulty(difficultyLevel: number) {
+    let newWord = '';
+    do {
+      newWord = this.setScrambledWord()
+    } while (newWord.length !== difficultyLevel)
   }
 
   scrambleCheckForDupes(unscrambled: string) {
@@ -89,7 +99,7 @@ export class JumbleComponent implements OnInit {
       this.populateSubWords(mainLetters[i]);
     }
 
-    console.log('subWords: ', this.subWords)
+    // console.log('subWords: ', this.subWords)
   }
 
   private populateSubWords(letter: string) {
@@ -97,24 +107,23 @@ export class JumbleComponent implements OnInit {
     do {
       newWord = this.generateWord();
     } while (!newWord.includes(letter))
-    console.log('newWord: ', newWord, ' letter = ', letter);
+
+    this.subWords.push(newWord);
+    this.scrambledSubWords.push(this.scrambleWord(newWord));
 
     const wordMap = new Map();
     let newWordLetters = newWord.split('');
 
     for (let i = 0; newWordLetters.length > i; i++) {
-      console.log('LETTER: ', newWordLetters[i])
       if (newWordLetters[i] === letter) {
-        console.log('letter matches: ', letter)
         wordMap.set(newWordLetters[i], letter);
       } else {
-        console.log('letter doesnt match: ', letter)
         wordMap.set(newWordLetters[i], null)
       }
     }
 
-    // wordMap.set(newWord, letter);
-    console.log('map: ', wordMap);
+    this.subWordsMapArray.push(wordMap)
+
   }
 
   resetGame() {

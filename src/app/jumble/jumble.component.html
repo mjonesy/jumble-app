@@ -1,27 +1,38 @@
-
-<p>Unscramble the word below:</p>
-
-<h2 class="centered">
-  {{unscrambledWord}}
-</h2>
-<h3 class="centered">
-  <div *ngFor="let subWord of subWords">{{subWord}}</div>
-</h3>
-<br>
-<mat-form-field class="example-form-field" appearance="fill">
-  <input matInput type="text" (input)="checkInputWord($event)">
-</mat-form-field>
-<br>
-<br>
-<div *ngIf="isWordCorrect" class="centered">
-  <div class="you-got-it">You got it!</div>
+<div class="centered">
+  <div class="difficulty-buttons">
+    <button class="difficulty-btn-easy" (click)="setDifficulty(4)">easy</button>
+    <button class="difficulty-btn-med" (click)="setDifficulty(6)">medium</button>
+    <button class="difficulty-btn-hard" (click)="setDifficulty(8)">hard</button>
+  </div>
   <br>
-  <button (click)="this.resetGame()" >Play again?</button>
-</div>
-<div *ngIf="showGuessAgain" class="centered guess-again">
-  Guess again
-</div>
+  <div>Unscramble the word below:</div>
+  <h2>
+    {{scrambledWord}}
+  </h2>
 
-<ul>
-  <li *ngFor="let guessedWord of guessedWords">{{guessedWord}}</li>
-</ul>
+  <!--  <h3>-->
+  <!--  <div class="blue" *ngFor="let scrambledSubWord of scrambledSubWords">{{scrambledSubWord}}</div>-->
+  <!--  - -->
+  <!--  <div class="purple" *ngFor="let scrambledSubWord of subWordsMapArray">{{scrambledSubWord}}</div>-->
+  <!--  - -->
+  <!--  <div *ngFor="let subWord of subWords">{{subWord}}</div>-->
+  <!--  </h3>-->
+  <br>
+  <mat-form-field class="example-form-field" appearance="fill">
+    <input matInput type="text" (input)="checkInputWord($event)">
+  </mat-form-field>
+  <br>
+  <br>
+  <div *ngIf="isWordCorrect" class="centered">
+    <div class="you-got-it">You got it!</div>
+    <br>
+    <button (click)="this.resetGame()">Play again?</button>
+  </div>
+  <div *ngIf="showGuessAgain" class="centered guess-again">
+    Guess again
+  </div>
+
+  <ul>
+    <li *ngFor="let guessedWord of guessedWords">{{guessedWord}}</li>
+  </ul>
+</div>

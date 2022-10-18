@@ -1,7 +1,35 @@
 .centered {
-  //display: flex;
-  //flex-wrap: wrap;
-  justify-content: center;
+  text-align: center;
+}
+
+.difficulty-btn {
+  cursor: pointer;
+
+  &-easy {
+    @extend .difficulty-btn;
+    background-color: lightgreen;
+    margin-right: 1rem;
+  }
+
+  &-med {
+    @extend .difficulty-btn;
+    background-color: orange;
+    margin-right: 1rem;
+  }
+
+  &-hard {
+    @extend .difficulty-btn;
+    background-color: indianred;
+  }
+
+}
+
+.blue {
+  color: #1976d2;
+}
+
+.purple {
+  color: purple;
 }
 
 .example-form-field {
