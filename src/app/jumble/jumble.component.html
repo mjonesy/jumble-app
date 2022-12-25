@@ -5,34 +5,45 @@
     <button mat-button class="difficulty-btn-hard" (click)="setDifficulty(8)">hard</button>
   </div>
   <br>
-  <div>Unscramble the word below:</div>
-  <h2>
-    {{scrambledWord}}
-  </h2>
+  <h2>First, unscramble the words below:</h2>
+  <br>
+  <div class="first-letter-success" *ngIf="hasFoundFirstLetter">Great! Found
+    letter: {{firstLetters.split('').pop()}}</div>
 
-  <!--  <h3>-->
-<!--    <div class="blue" *ngFor="let scrambledSubWord of scrambledSubWords">{{scrambledSubWord}}</div>-->
-  <!--  - -->
-<!--    <div class="purple" *ngFor="let scrambledSubWord of subWordsMapArray">{{scrambledSubWord}}</div>-->
-  <!--  - -->
-  <!--  <div *ngFor="let subWord of subWords">{{subWord}}</div>-->
-  <!--  </h3>-->
   <br>
-  <mat-form-field class="guess-input-form-{{guessState}}">
-    <input matInput type="text" class="guess-input" (input)="checkInputWord($event)">
-  </mat-form-field>
+  <h3>
+    <div *ngFor="let scrambledSubWord of scrambledSubWords let i = index">
+      {{scrambledSubWord}}
+      <input matInput (keyup)="checkScrambledInput(scrambledSubWord, $event)" class="scrambled-input"
+             style="margin-left: 15px">
+
+    </div>
+  </h3>
   <br>
+  <h5 *ngIf="firstLetters.length > 0" class="first-letters-found">Letters found: {{firstLetters}}</h5>
   <br>
-  <div *ngIf="isWordCorrect" class="centered">
-    <div class="you-got-it">You got it!</div>
+
+  <div class="has-completed-step-one" *ngIf="hasCompletedStepOne">
+    <div>Great! Now use those letters for the final word below...</div>
+  </div>
+  <br>
+    <mat-form-field class="guess-input-form-{{guessState}}">
+      <input matInput type="text" class="guess-input"
+             (input)="checkInputWord($event)" [(ngModel)]="guessedWord">
+    </mat-form-field>
     <br>
-    <button mat-button class="blue" (click)="this.resetGame()">Play again?</button>
-  </div>
-  <div *ngIf="showGuessAgain" class="centered guess-again">
-    Guess again
-  </div>
+    <br>
+    <div *ngIf="isWordCorrect" class="centered">
+      <div class="you-got-it">You got it!</div>
+      <br>
+      <button mat-button class="blue" (click)="this.resetGame()">Play again?</button>
+    </div>
+    <div *ngIf="showGuessAgain" class="centered guess-again">
+      Guess again
+    </div>
 
-  <mat-list>
-    <mat-list-item *ngFor="let guessedWord of guessedWords">{{guessedWord}}</mat-list-item>
-  </mat-list>
-</div>
+    <mat-list>
+      <mat-list-item style="background-color: cadetblue; align-items: center; border: 3px solid black; border-radius: 20px"
+                     *ngFor="let guessedWord of guessedWords">{{guessedWord}}</mat-list-item>
+    </mat-list>
+  </div>

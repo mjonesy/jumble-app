@@ -17,34 +17,76 @@ export class JumbleComponent implements OnInit {
   scrambledSubWords: string[] = [];
   subWordsMapArray: any = [];
   guessState = 'default';
+  subWordsArray: string[][] = [];
+  scrambledInputStatus = 'default';
+  firstLetters = "";
+  hasFoundFirstLetter = false;
+  hasCompletedStepOne = false;
 
   constructor() {
   }
 
   ngOnInit(): void {
     this.setScrambledWord();
-    console.log('subWords: ', this.subWords);
-    console.log('scrambledSubWords: ', this.scrambledSubWords);
-    console.log('subWordsArrayMap: ', this.subWordsMapArray);
+    this.setSubWords(this.unscrambledWord);
+    this.setSubWordsArray();
+    console.log('you cheater!! Word is', this.unscrambledWord);
+  }
+
+  checkScrambledInput(scrambledWord, event: any) {
+    this.scrambledInputStatus = 'default';
+    let guessed = event.target.value.toLocaleUpperCase();
+    console.log('guessed: ', guessed)
+    if (event.key !== 'Enter' && this.subWords.includes(guessed)) {
+      let guessedWordArray = this.guessedWord.split('');
+      guessedWordArray.push(guessed[0]);
+      this.guessedWord = guessedWordArray.join('');
+
+      let firstLetterArray = this.firstLetters.split('');
+      firstLetterArray.push(guessed[0]);
+      this.firstLetters = firstLetterArray.join('');
+      if (this.firstLetters.length === this.scrambledWord.length) {
+        this.hasCompletedStepOne = true;
+      }
+
+      this.hasFoundFirstLetter = true;
+      return true;
+    } else {
+      this.hasFoundFirstLetter = false;
+      return false;
+    }
   }
 
   setScrambledWord() {
     this.unscrambledWord = this.generateWord();
     this.scrambledWord = this.scrambleCheckForDupes(this.unscrambledWord);
 
-    this.setSubWords(this.unscrambledWord);
     return this.scrambledWord;
   }
 
+  setSubWordsArray() {
+    this.subWordsArray = []
+    this.subWords.forEach(word =>
+      this.subWordsArray.push(word.split(''))
+    )
+  }
+
   generateWord() {
-    return randomWords.default(1)[0];
+    return randomWords.default(1)[0].toLocaleUpperCase();
   }
 
   setDifficulty(difficultyLevel: number) {
-    let newWord = '';
+    this.resetGame();
+    this.guessedWord = "";
+    this.firstLetters = "";
+    let newWord = this.setScrambledWord();
     do {
-      newWord = this.setScrambledWord()
+      this.resetSubWords();
+      newWord = this.setScrambledWord();
     } while (newWord.length !== difficultyLevel)
+    this.setSubWords(this.unscrambledWord);
+    this.setSubWordsArray();
+    console.log('you cheater!! Word is', this.unscrambledWord);
   }
 
   scrambleCheckForDupes(unscrambled: string) {
@@ -68,14 +110,15 @@ export class JumbleComponent implements OnInit {
   }
 
   checkInputWord(event: any) {
-    this.guessedWord = event.target.value;
+    this.hasFoundFirstLetter = false;
+    this.guessedWord = event.target.value.toLocaleUpperCase();
     console.log(this.guessedWord);
     const correctGuess = this.guessedWord == this.unscrambledWord;
     const lengthMatches = this.guessedWord.length == this.unscrambledWord.length;
 
     if (!lengthMatches) {
       this.showGuessAgain = false;
-      this.guessState = 'default';
+      this.resetGuessState();
     }
 
     if (!correctGuess && lengthMatches) {
@@ -94,28 +137,49 @@ export class JumbleComponent implements OnInit {
   }
 
   setSubWords(unscrambledMainWord: string) {
-    // let unscrambledMainWord = 'dog';
-
+    this.resetSubWords();
     let mainLetters = unscrambledMainWord.split('');
-    // let mainLetters = 'dog';
 
     for (let i = 0; i < mainLetters.length; i++) {
       this.populateSubWords(mainLetters[i]);
     }
+    this.shuffleSubWords(this.subWords);
+    console.log('this.subwords ', this.subWords)
+    this.populateScrambledSubWords(this.subWords);
+  }
 
-    // console.log('subWords: ', this.subWords)
+  private shuffleSubWords(subWords: string[]) {
+    let tempArray: string[] = [];
+    subWords.forEach(word => {
+      tempArray.push(word);
+    })
+
+    for (let i = tempArray.length -1; i > 0; i--) {
+      let j = Math.floor(Math.random() * i)
+      let k = tempArray[i]
+      tempArray[i] = tempArray[j]
+      tempArray[j] = k
+    }
+
+    this.subWords = tempArray;
+  }
+
+  private populateScrambledSubWords(subWords: string[]) {
+    subWords.forEach(word => this.scrambledSubWords.push(this.scrambleWord(word)))
   }
 
   private populateSubWords(letter: string) {
     let newWord = '';
     do {
       newWord = this.generateWord();
-    } while (!newWord.includes(letter))
-    // console.log('newWord: ', newWord)
+    } while (!(newWord[0] === letter))
 
     this.subWords.push(newWord);
-    this.scrambledSubWords.push(this.scrambleWord(newWord));
 
+    this.createSubWordMap(newWord, letter);
+  }
+
+  private createSubWordMap(newWord: string, letter: string) {
     const wordMap = new Map();
     let newWordLetters = newWord.split('');
 
@@ -126,9 +190,25 @@ export class JumbleComponent implements OnInit {
         wordMap.set(newWordLetters[i], null)
       }
     }
-
     this.subWordsMapArray.push(wordMap)
+  }
 
+  private resetGuessedWords() {
+    this.guessedWords = [];
+  }
+
+  private resetGuessAgain() {
+    this.showGuessAgain = false;
+  }
+
+  private resetGuessState() {
+    this.guessState = "default";
+  }
+
+  private resetSubWords() {
+    this.subWords = [];
+    this.scrambledSubWords = [];
+    this.subWordsMapArray = [];
   }
 
   resetGame() {
@@ -136,8 +216,15 @@ export class JumbleComponent implements OnInit {
     this.scrambledWord = "";
     this.guessedWord = "";
     this.isWordCorrect = false;
-    this.showGuessAgain = false;
-    this.guessedWords = [];
+    this.firstLetters = "";
+    this.hasCompletedStepOne = false;
+    this.hasFoundFirstLetter = false;
+
+    this.resetGuessState();
+    this.resetGuessAgain();
+    this.resetGuessedWords();
+    this.setScrambledWord();
+    this.resetSubWords();
     this.setScrambledWord();
   }
 }

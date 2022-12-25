@@ -2,24 +2,50 @@
   text-align: center;
 }
 
+.first-letter-success {
+  background-color: lightgreen;
+  border: 3px solid green;
+  border-radius: 20px;
+}
+
+.first-letters-found {
+  background-color: lightpink;
+  border: 3px solid blueviolet;
+  border-radius: 20px;
+  font-size: large;
+}
+
+.guessed-word-list {
+  border: 3px solid black;
+  border-radius: 20px;
+  font-size: large;
+}
+
+.has-completed-step-one {
+  background-color: lightskyblue;
+  border: 3px solid lightblue;
+  border-radius: 20px;
+  padding: 10px;
+}
+
 .difficulty-btn {
   cursor: pointer;
 
   &-easy {
     @extend .difficulty-btn;
-    background-color: lightgreen;
+    background-color: #f5bfd2;
     margin-right: 1rem;
   }
 
   &-med {
     @extend .difficulty-btn;
-    background-color: orange;
+    background-color: #e6a57e;
     margin-right: 1rem;
   }
 
   &-hard {
     @extend .difficulty-btn;
-    background-color: indianred;
+    background-color: #beb4c5;
   }
 
 }
@@ -64,10 +90,22 @@
   font-size: xx-large;
 }
 
+.scrambled-input {
+  width: 150px;
+  height: 20px;
+  background-color: #c2c3c4;
+  border: 3px solid black;
+  border-radius: 25px;
+}
+
 .you-got-it {
   background-color: lightgreen;
+  border: 3px solid green;
+  border-radius: 20px;
 }
 
 .guess-again {
   background-color: indianred;
+  border: 3px solid darkred;
+  border-radius: 20px;
 }
