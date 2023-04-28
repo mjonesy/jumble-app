@@ -54,6 +54,9 @@ export class JumbleComponent implements OnInit {
 
       // @ts-ignore
       document.getElementById('input-' + i).setAttribute('disabled', "true")
+      // @ts-ignore
+      document.getElementById('input-' + i)
+        .setAttribute('style', "margin-left: 15px; color: green; border-color: green")
       this.hasFoundFirstLetter = true;
       return true;
     } else {
