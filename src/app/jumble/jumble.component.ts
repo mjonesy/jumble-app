@@ -22,6 +22,7 @@ export class JumbleComponent implements OnInit {
   firstLetters = "";
   hasFoundFirstLetter = false;
   hasCompletedStepOne = false;
+  difficulty = 5;
 
   constructor() {
   }
@@ -72,10 +73,17 @@ export class JumbleComponent implements OnInit {
   }
 
   generateWord() {
-    return randomWords.default(1)[0].toLocaleUpperCase();
+    let word = ''
+    while (true) {
+      word = randomWords.default(1)[0].toLocaleUpperCase();
+      if (word.length <= this.difficulty) {
+        return word
+      }
+    }
   }
 
   setDifficulty(difficultyLevel: number) {
+    this.difficulty = difficultyLevel
     this.resetGame();
     this.guessedWord = "";
     this.firstLetters = "";
@@ -83,7 +91,7 @@ export class JumbleComponent implements OnInit {
     do {
       this.resetSubWords();
       newWord = this.setScrambledWord();
-    } while (newWord.length !== difficultyLevel)
+    } while (newWord.length !== this.difficulty)
     this.setSubWords(this.unscrambledWord);
     this.setSubWordsArray();
     console.log('you cheater!! Word is', this.unscrambledWord);
