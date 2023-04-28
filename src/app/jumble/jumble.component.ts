@@ -241,5 +241,7 @@ export class JumbleComponent implements OnInit {
     this.setScrambledWord();
     this.resetSubWords();
     this.setScrambledWord();
+
+    this.ngOnInit();
   }
 }
