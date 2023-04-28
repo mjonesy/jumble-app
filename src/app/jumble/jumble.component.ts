@@ -34,7 +34,9 @@ export class JumbleComponent implements OnInit {
     console.log('you cheater!! Word is', this.unscrambledWord);
   }
 
-  checkScrambledInput(scrambledWord, event: any) {
+  checkScrambledInput(scrambledWord, event: any, i: number) {
+    console.log('index: ', i)
+
     this.scrambledInputStatus = 'default';
     let guessed = event.target.value.toLocaleUpperCase();
     console.log('guessed: ', guessed)
@@ -50,6 +52,8 @@ export class JumbleComponent implements OnInit {
         this.hasCompletedStepOne = true;
       }
 
+      // @ts-ignore
+      document.getElementById('input-' + i).setAttribute('disabled', "true")
       this.hasFoundFirstLetter = true;
       return true;
     } else {

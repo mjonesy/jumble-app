@@ -14,9 +14,11 @@
   <h3>
     <div *ngFor="let scrambledSubWord of scrambledSubWords let i = index">
       {{scrambledSubWord}}
-      <input matInput (keyup)="checkScrambledInput(scrambledSubWord, $event)"
+      <input matInput (keyup)="checkScrambledInput(scrambledSubWord, $event, i)"
              class="scrambled-input"
-             style="margin-left: 15px">
+             style="margin-left: 15px"
+             id="input-{{i}}"
+      >
 
     </div>
   </h3>
